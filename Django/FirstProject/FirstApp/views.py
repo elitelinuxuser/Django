@@ -1,11 +1,22 @@
 from django.shortcuts import render
-from FirstApp.models import User
+# from FirstApp.models import User
+from FirstApp.forms import NewForm
 
 # Create your views here.
 def index(request):
     return render(request,'FirstApp/index.html')
 
 def users(request):
-    my_list = User.objects.order_by('first_name')
-    my_dict = {'users':my_list}
-    return render(request,'FirstApp/users.html',context = my_dict)
+
+    form = NewForm()
+
+    if request.method == 'POST':
+        form = NewForm(request.POST)
+
+        if form.is_valid():
+            form.save(commit = True)
+            return index(request)
+        else:
+            print("Invalid")
+
+    return render(request,'FirstApp/users.html',{'form':form})

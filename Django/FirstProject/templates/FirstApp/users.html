@@ -5,16 +5,10 @@
     <title></title>
   </head>
   <body>
-    {% if users %}
-      {% for us in users %}
-        <ol>
-          <li>First Name : {{us.first_name}}</li>
-          <li>Last Name : {{us.last_name}}</li>
-          <li>Email : {{us.email}}</li>
-        </ol>
-      {% endfor %}
-    {% else %}
-        <h1>This was a waste of time</h1>
-    {% endif %}
+    <form method="post">
+      {{form.as_p}}
+      {% csrf_token %}
+      <input type="submit" name="" value="Submit">
+    </form>
   </body>
 </html>
