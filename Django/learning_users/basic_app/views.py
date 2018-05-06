@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-loggedin=False
 # Create your views here.
 def index(request):
     return render(request,'basic_app/index.html')
@@ -76,12 +75,10 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    global loggedin
-    loggedin=False
-    return render(request,'basic_app/special.html',{'logged_in':loggedin})
+    return render(request,'basic_app/login.html')
 
 def special(request):
-    if loggedin==False:
+    if not request.user.is_authenticated:
         return render(request,'basic_app/login.html')
-    elif loggedin==True:
+    else:
         return render(request,'basic_app/special.html')

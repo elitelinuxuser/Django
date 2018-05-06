@@ -9,15 +9,27 @@
   </head>
   <body>
 
-    <nav class="navbar navbar-default">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container-fluid">
-    <div class="navbar-header">
       <a class="navbar-brand" href="#">WebSiteName</a>
-    </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="{% url 'basic_app:list' %}">Schools</a></li>
-      <li><a href="{% url 'admin:index' %}"></a></li>
-      <li><a href="#">Page 2</a></li>
+      <li class="nav-itemk"><a class="nav-link" href="{% url 'basic_app:list' %}">Schools</a></li>
+      <li class="nav-item active">
+        <a class="nav-link" href="{% url 'admin:index' %}">Admin <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'basic_app:register'%}">Register</a>
+      </li>
+
+      {% if user.is_authenticated %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+        </li>
+      {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'basic_app:user_login'%}">Login</a>
+        </li>
+      {% endif %}
     </ul>
   </div>
 </nav>
