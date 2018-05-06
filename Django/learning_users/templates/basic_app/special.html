@@ -1,0 +1,10 @@
+{% extends 'basic_app/base.html' %}
+{% block body_block %}
+  <div class="jumbotron">
+    {% if logged_in %}
+      <h1>You are logged in!</h1>
+    {% else %}
+      <h1>You are logged out!</h1>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -7,20 +7,11 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-
+loggedin=False
 # Create your views here.
 def index(request):
     return render(request,'basic_app/index.html')
 
-@login_required
-def special(request):
-    return HttpResponse("You are logged in!")
-
-#Logout
-@login_required
-def user_logout(request):
-    logout(request)
-    return HttpResponseRedirect(reverse('index'))
 
 #Registration
 def register(request):
@@ -67,7 +58,9 @@ def user_login(request):
         if user:
             if user.is_active:
                 login(request,user)
-                return HttpResponseRedirect(reverse('index'))
+                global loggedin
+                loggedin=True
+                return render(request,'basic_app/special.html',{'logged_in':loggedin})
 
             else:
                 HttpResponse("Account inactive")
@@ -78,3 +71,17 @@ def user_login(request):
 
     else:
         return render(request,'basic_app/login.html',{})
+
+#Logout
+@login_required
+def user_logout(request):
+    logout(request)
+    global loggedin
+    loggedin=False
+    return render(request,'basic_app/special.html',{'logged_in':loggedin})
+
+def special(request):
+    if loggedin==False:
+        return render(request,'basic_app/login.html')
+    elif loggedin==True:
+        return render(request,'basic_app/special.html')
